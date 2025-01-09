@@ -1,1 +1,2 @@
 Aqui estamos comitando de um repositório local (minha máquina) para um repositório remoto (github) 
+demonstrando o git diff
