@@ -1,10 +1,12 @@
+from datetime import datetime, date, timedelta
+
+
 def validar_nome(nome):
     nome_teste = str(nome).strip().split()
     if ''.join(nome_teste).isalpha():
         return True
     else:
         return False
-
 
 class Hotel:
     Tipos_Quartos = {
@@ -19,11 +21,13 @@ class Hotel:
             raise ValueError("NÃO TEMOS VAGAS EM NENHUM DOS QUARTOS NO MOMENTO, ESTÃO TODOS OCUPADOS.")
         return super(Hotel,cls).__new__(cls)
 
-    def __init__(self, nome, qtd_pessoas):
+    def __init__(self, nome, qtd_pessoas, qnts_dias):
         self.__nome = nome
         self.qtd_pessoas = qtd_pessoas
         self.tipo_quarto = "Quarto_tipo1" if self.qtd_pessoas <= 4 else("Quarto_tipo2" if self.qtd_pessoas <= 5 else "Quarto_tipo3") 
         self.numero_quarto = Hotel.Tipos_Quartos[self.tipo_quarto]
+        self.data_alocacao = datetime.today().date()
+        self.termino_alocao = datetime.today().today() + timedelta(days=self.qnts_dias)
         Hotel.Tipos_Quartos["Quartos_disponiveis"] -= 1
         Hotel.Tipos_Quartos[self.tipo_quarto] -= 1
     
@@ -45,7 +49,8 @@ while True:
         if quantas_pessoas > 6:
             print("NÃO TEMOS QUARTA PARA ESSA QUANTIDADE")
             continue
-        Hospedes.append(Hotel(nome_locador,quantas_pessoas))
+        quantos_dias = int(input("Deseja alocar o quarto por quantos dias? "))
+        Hospedes.append(Hotel(nome_locador,quantas_pessoas, quantos_dias))
     except ValueError as erro:
         print(f"ERRO: {erro}")
     else:
